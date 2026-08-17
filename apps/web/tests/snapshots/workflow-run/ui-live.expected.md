@@ -9,24 +9,15 @@
   - img
   - img
   - text: "Think The user wants me to use the workflow tool exactly once with specific parameters. Let me carefully follow the instructions:"
+- text: Running
 - button "Tool call workflow ·":
   - img
   - img
   - text: Tool call workflow ·
-- button "snapshot-flow 1 member Completed":
+- button "snapshot-flow 1 member Running" [expanded]:
   - img
-  - text: snapshot-flow 1 member Completed
-- button "Think The workflow returned successfully with the reply \"WF_CHILD_OK\". Now I need to reply with exactly \"WORKFLOW_DONE\" and stop.":
+  - text: snapshot-flow 1 member Running
+- button "Run 1 member Running 1":
   - img
-  - img
-  - text: Think The workflow returned successfully with the reply "WF_CHILD_OK". Now I need to reply with exactly "WORKFLOW_DONE" and stop.
-- paragraph: WORKFLOW_DONE
-- button "Copy":
-  - img
-- button "Good response":
-  - img
-- button "Bad response":
-  - img
-- button "Branch into a new conversation":
-  - img
-- text: {{clock}} Ran for {{duration}} TTFT {{duration}} {{throughput}} tok/s
+  - text: Run 1 member Running 1
+- status: Deep diving...
