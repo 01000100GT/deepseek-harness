@@ -1,24 +1,22 @@
 /**
- * Package-owned invariant companion for `@deepseek-ai/dsh-client-ui-slots`.
- * @module @deepseek-ai/dsh-client-ui-slots/invariant
+ * Package-owned invariant companion for `@deepseek-ai/dsh-client-store`.
+ * @module @deepseek-ai/dsh-client-store/invariant
  */
 
 /* jscpd:ignore-start */
 import type { Context } from '@deepseek-ai/cordis'
 import type { InvariantInstaller } from '@deepseek-ai/dsh-invariants'
 
-const PACKAGE_NAME = '@deepseek-ai/dsh-client-ui-slots'
+const PACKAGE_NAME = '@deepseek-ai/dsh-client-store'
 
 /** Cordis companion plugin name. */
-export const name = 'client-ui-slots-invariant'
+export const name = 'client-store-invariant'
 /** Service required before the companion can reserve package ownership. */
 export const inject = ['invariants']
 
 /**
- * No runtime invariant: a zero-dependency pure registry core — it emits no
- * cordis events itself (the `ui-renderer` SlotRegistry owns the event
- * bridge and its invariants); define/register/dispose sequencing is asserted
- * directly by this package's behavior specs.
+ * No runtime invariant: the package exports a library engine and creates no
+ * process-global state; each store instance is covered by its owning tests.
  */
 const install: InvariantInstaller = () => {}
 
