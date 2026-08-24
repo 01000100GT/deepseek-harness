@@ -4,14 +4,14 @@
       {
         "type": "function",
         "function": {
-          "name": "bash",
-          "description": "Run commands in a bash shell\n* When invoking this tool, the contents of the \"command\" parameter does NOT need to be XML-escaped.\n* You don't have access to the internet via this tool.\n* You do have access to a mirror of common linux and python packages via apt and pip.\n* State is persistent across command calls and discussions with the user.\n* To inspect a particular line range of a file, e.g. lines 10-25, try 'sed -n 10,25p /path/to/the/file'.\n* Please avoid commands that may produce a very large amount of output.\n* Please run long lived commands in the background, e.g. 'sleep 10 &' or start a server in the background.",
+          "name": "pwsh",
+          "description": "Run commands in a PowerShell shell\n* When invoking this tool, the contents of the \"command\" parameter does NOT need to be XML-escaped.\n* You don't have access to the internet via this tool.\n* State is persistent across command calls and discussions with the user.\n* Use native Windows paths (C:\\...) and $env:NAME variables; this is PowerShell, not bash.\n* Please avoid commands that may produce a very large amount of output.\n* Please run long lived commands in the background, e.g. 'Start-Job' or start a server with Start-Process.",
           "parameters": {
             "type": "object",
             "properties": {
               "command": {
                 "type": "string",
-                "description": "The bash command to run. Relative path is preferred in the command."
+                "description": "The PowerShell command to run. Relative path is preferred in the command."
               }
             },
             "required": [
@@ -81,7 +81,7 @@
       },
       {
         "role": "user",
-        "text": "Exercise the packaged minimal agent's persistent shell and string-replacement editor.\nEditor path: {{cwd}}/created.txt"
+        "text": "Exercise the packaged minimal agent's persistent shell and string-replacement editor.\nEditor path: {{cwd}}\\created.txt"
       }
     ]
   },
@@ -90,14 +90,14 @@
       {
         "type": "function",
         "function": {
-          "name": "bash",
-          "description": "Run commands in a bash shell\n* When invoking this tool, the contents of the \"command\" parameter does NOT need to be XML-escaped.\n* You don't have access to the internet via this tool.\n* You do have access to a mirror of common linux and python packages via apt and pip.\n* State is persistent across command calls and discussions with the user.\n* To inspect a particular line range of a file, e.g. lines 10-25, try 'sed -n 10,25p /path/to/the/file'.\n* Please avoid commands that may produce a very large amount of output.\n* Please run long lived commands in the background, e.g. 'sleep 10 &' or start a server in the background.",
+          "name": "pwsh",
+          "description": "Run commands in a PowerShell shell\n* When invoking this tool, the contents of the \"command\" parameter does NOT need to be XML-escaped.\n* You don't have access to the internet via this tool.\n* State is persistent across command calls and discussions with the user.\n* Use native Windows paths (C:\\...) and $env:NAME variables; this is PowerShell, not bash.\n* Please avoid commands that may produce a very large amount of output.\n* Please run long lived commands in the background, e.g. 'Start-Job' or start a server with Start-Process.",
           "parameters": {
             "type": "object",
             "properties": {
               "command": {
                 "type": "string",
-                "description": "The bash command to run. Relative path is preferred in the command."
+                "description": "The PowerShell command to run. Relative path is preferred in the command."
               }
             },
             "required": [
@@ -167,14 +167,14 @@
       },
       {
         "role": "user",
-        "text": "Exercise the packaged minimal agent's persistent shell and string-replacement editor.\nEditor path: {{cwd}}/created.txt"
+        "text": "Exercise the packaged minimal agent's persistent shell and string-replacement editor.\nEditor path: {{cwd}}\\created.txt"
       },
       {
         "role": "assistant",
         "toolCalls": [
           {
             "id": "minimal-bash-1",
-            "name": "bash"
+            "name": "pwsh"
           }
         ]
       },
@@ -190,14 +190,14 @@
       {
         "type": "function",
         "function": {
-          "name": "bash",
-          "description": "Run commands in a bash shell\n* When invoking this tool, the contents of the \"command\" parameter does NOT need to be XML-escaped.\n* You don't have access to the internet via this tool.\n* You do have access to a mirror of common linux and python packages via apt and pip.\n* State is persistent across command calls and discussions with the user.\n* To inspect a particular line range of a file, e.g. lines 10-25, try 'sed -n 10,25p /path/to/the/file'.\n* Please avoid commands that may produce a very large amount of output.\n* Please run long lived commands in the background, e.g. 'sleep 10 &' or start a server in the background.",
+          "name": "pwsh",
+          "description": "Run commands in a PowerShell shell\n* When invoking this tool, the contents of the \"command\" parameter does NOT need to be XML-escaped.\n* You don't have access to the internet via this tool.\n* State is persistent across command calls and discussions with the user.\n* Use native Windows paths (C:\\...) and $env:NAME variables; this is PowerShell, not bash.\n* Please avoid commands that may produce a very large amount of output.\n* Please run long lived commands in the background, e.g. 'Start-Job' or start a server with Start-Process.",
           "parameters": {
             "type": "object",
             "properties": {
               "command": {
                 "type": "string",
-                "description": "The bash command to run. Relative path is preferred in the command."
+                "description": "The PowerShell command to run. Relative path is preferred in the command."
               }
             },
             "required": [
@@ -267,14 +267,14 @@
       },
       {
         "role": "user",
-        "text": "Exercise the packaged minimal agent's persistent shell and string-replacement editor.\nEditor path: {{cwd}}/created.txt"
+        "text": "Exercise the packaged minimal agent's persistent shell and string-replacement editor.\nEditor path: {{cwd}}\\created.txt"
       },
       {
         "role": "assistant",
         "toolCalls": [
           {
             "id": "minimal-bash-1",
-            "name": "bash"
+            "name": "pwsh"
           }
         ]
       },
@@ -288,7 +288,7 @@
         "toolCalls": [
           {
             "id": "minimal-bash-2",
-            "name": "bash"
+            "name": "pwsh"
           }
         ]
       },
@@ -304,14 +304,14 @@
       {
         "type": "function",
         "function": {
-          "name": "bash",
-          "description": "Run commands in a bash shell\n* When invoking this tool, the contents of the \"command\" parameter does NOT need to be XML-escaped.\n* You don't have access to the internet via this tool.\n* You do have access to a mirror of common linux and python packages via apt and pip.\n* State is persistent across command calls and discussions with the user.\n* To inspect a particular line range of a file, e.g. lines 10-25, try 'sed -n 10,25p /path/to/the/file'.\n* Please avoid commands that may produce a very large amount of output.\n* Please run long lived commands in the background, e.g. 'sleep 10 &' or start a server in the background.",
+          "name": "pwsh",
+          "description": "Run commands in a PowerShell shell\n* When invoking this tool, the contents of the \"command\" parameter does NOT need to be XML-escaped.\n* You don't have access to the internet via this tool.\n* State is persistent across command calls and discussions with the user.\n* Use native Windows paths (C:\\...) and $env:NAME variables; this is PowerShell, not bash.\n* Please avoid commands that may produce a very large amount of output.\n* Please run long lived commands in the background, e.g. 'Start-Job' or start a server with Start-Process.",
           "parameters": {
             "type": "object",
             "properties": {
               "command": {
                 "type": "string",
-                "description": "The bash command to run. Relative path is preferred in the command."
+                "description": "The PowerShell command to run. Relative path is preferred in the command."
               }
             },
             "required": [
@@ -381,14 +381,14 @@
       },
       {
         "role": "user",
-        "text": "Exercise the packaged minimal agent's persistent shell and string-replacement editor.\nEditor path: {{cwd}}/created.txt"
+        "text": "Exercise the packaged minimal agent's persistent shell and string-replacement editor.\nEditor path: {{cwd}}\\created.txt"
       },
       {
         "role": "assistant",
         "toolCalls": [
           {
             "id": "minimal-bash-1",
-            "name": "bash"
+            "name": "pwsh"
           }
         ]
       },
@@ -402,7 +402,7 @@
         "toolCalls": [
           {
             "id": "minimal-bash-2",
-            "name": "bash"
+            "name": "pwsh"
           }
         ]
       },
