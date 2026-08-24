@@ -24,6 +24,7 @@
 
 .sidebarCol {
   min-width: 0;
+  min-height: 0;
   overflow: hidden;
   background: var(--dsw-specific-sidebar-fill);
   border-right: 1px solid var(--dsw-alias-border-l1);
@@ -31,6 +32,12 @@
 
 .centerCol {
   min-width: 0;
+  /* Grid items default to min-height: auto, which would expand the row
+   * to fit any internal min-content (a long transcript line, a tall tool
+   * result) and push the whole frame past the viewport bottom. Pinning
+   * the item to 0 lets the column participate in the height: 100% /
+   * var(--app-height) bound set on the .frame above. */
+  min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -38,6 +45,7 @@
 
 .detailsCol {
   min-width: 0;
+  min-height: 0;
   overflow: hidden;
   border-left: 1px solid var(--dsw-alias-border-l2);
 }
