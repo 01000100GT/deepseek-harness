@@ -4,11 +4,17 @@
 html,
 body,
 #root {
-  /* The viewport.ts install hook writes --app-height from visualViewport
-   * (mobile keyboard / on-screen chrome) or innerHeight (fallback), then
-   * base.css falls back to 100dvh so the dynamic viewport unit covers
-   * browsers that understand it without JS help. 100% closes the chain
-   * for engines that support neither. */
+  /* The viewport.ts install hook writes --app-height / --app-width from
+   * visualViewport (mobile keyboard / on-screen chrome) or innerHeight /
+   * innerWidth (fallback), then base.css falls back to 100dvh so the
+   * dynamic viewport unit covers browsers that understand it without JS
+   * help. 100% closes the chain for engines that support neither.
+   *
+   * Width stays unpinned on the mount chain on purpose: during pinch-zoom
+   * visualViewport.width runs narrower than the layout viewport, and
+   * clamping body to it would reflow the whole document. --app-width is
+   * consumed only by popover CSS (max-width on menus and panels), where
+   * fitting the visible area is exactly the desired bound. */
   height: 100%;
   height: var(--app-height, 100dvh);
   margin: 0;

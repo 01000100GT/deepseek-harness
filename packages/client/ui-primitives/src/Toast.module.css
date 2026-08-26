@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  max-width: min(560px, calc(100vw - 48px));
+  max-width: min(560px, calc(var(--app-width, 100dvw) - 48px));
   padding: 12px 16px;
   border-radius: 14px;
   background: var(--dsw-alias-button-contrast-fill);

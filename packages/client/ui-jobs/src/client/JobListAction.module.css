@@ -48,7 +48,7 @@
   flex-direction: column;
   gap: 1px;
   width: 336px;
-  max-width: min(400px, calc(100vw - 32px));
+  max-width: min(400px, calc(var(--app-width, 100dvw) - 32px));
   max-height: var(--menu-max-height, min(420px, calc(var(--app-height, 100dvh) - 140px)));
   margin: 0;
   padding: 4px;

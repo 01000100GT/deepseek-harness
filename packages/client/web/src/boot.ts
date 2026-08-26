@@ -13,7 +13,7 @@ import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
 import { BootPage } from './boot-page.ts'
 import { getStaticModules } from './seed.ts'
 import { STATE_LABELS } from './loader-status.ts'
-import { installStableViewportHeight } from './viewport.ts'
+import { installStableViewport } from './viewport.ts'
 import './base.css'
 
 /** Module transport hook replaced by jsdom tests. */
@@ -49,7 +49,7 @@ export class AppWebEntry {
       // Pin --app-height before the boot page mounts so the very first
       // frame already has a stable viewport-bound height (see
       // viewport.ts). Re-running is idempotent.
-      installStableViewportHeight()
+      installStableViewport()
       const win = globalThis as DshWindow
       const moduleLoader = win.__ModuleLoader__
       if (moduleLoader === undefined) {

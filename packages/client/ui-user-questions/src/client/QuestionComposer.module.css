@@ -17,7 +17,7 @@
   /* Composer seat sits in a fixed-height conversation column (overflow
      hidden): cap the card against the viewport and scroll the option list
      so header and footer actions stay reachable on long batches. */
-  max-height: min(60vh, 520px);
+  max-height: min(calc(var(--app-height, 100dvh) * 0.6), 520px);
   padding: 0 0 10px;
   border: 1px solid var(--dsw-alias-border-l2-darkmode-thin);
   border-radius: 20px;

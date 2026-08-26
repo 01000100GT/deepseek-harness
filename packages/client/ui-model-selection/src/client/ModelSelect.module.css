@@ -75,8 +75,8 @@
   /* Let the visible pane's rows set the card width, but keep pathological ids
      and narrow screens inside a bounded card where ellipsis remains. */
   width: max-content;
-  min-width: min(240px, calc(100vw - 32px));
-  max-width: min(420px, calc(100vw - 32px));
+  min-width: min(240px, calc(var(--app-width, 100dvw) - 32px));
+  max-width: min(420px, calc(var(--app-width, 100dvw) - 32px));
   max-height: var(--menu-max-height, min(360px, calc(var(--app-height, 100dvh) - 96px)));
   overflow: hidden;
   padding: 4px;

@@ -63,7 +63,7 @@
   z-index: 1100;
   box-sizing: border-box;
   width: 320px;
-  max-width: min(360px, calc(100vw - 24px));
+  max-width: min(360px, calc(var(--app-width, 100dvw) - 24px));
   /* The width bound's counterpart. `resize: vertical` on the textarea lets the
      panel be dragged taller, and a panel taller than the viewport would push
      the placement clamp's upper bound below its own margin, so `top` would go

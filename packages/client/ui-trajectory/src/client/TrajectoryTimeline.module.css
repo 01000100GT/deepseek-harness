@@ -264,8 +264,8 @@
     transparent
   );
   box-shadow:
-    -100vw 0 0 100vw color-mix(in srgb, var(--dsw-alias-bg-layer-1) 58%, transparent),
-    100vw 0 0 100vw color-mix(in srgb, var(--dsw-alias-bg-layer-1) 58%, transparent);
+    calc(var(--app-width, 100dvw) * -1) 0 0 var(--app-width, 100dvw) color-mix(in srgb, var(--dsw-alias-bg-layer-1) 58%, transparent),
+    var(--app-width, 100dvw) 0 0 var(--app-width, 100dvw) color-mix(in srgb, var(--dsw-alias-bg-layer-1) 58%, transparent);
   pointer-events: none;
 }
 

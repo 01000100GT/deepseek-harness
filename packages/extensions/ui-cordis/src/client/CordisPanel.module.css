@@ -86,8 +86,8 @@
   display: flex;
   flex-direction: column;
   width: 420px;
-  max-width: calc(100vw - 24px);
-  max-height: 60vh;
+  max-width: calc(var(--app-width, 100dvw) - 24px);
+  max-height: calc(var(--app-height, 100dvh) * 0.6);
   overflow: hidden;
   border: 1px solid var(--dsw-alias-border-inverted);
   border-radius: 12px;

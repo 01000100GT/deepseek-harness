@@ -344,7 +344,7 @@
 .viewerCode {
   margin: 0;
   padding: 12px;
-  max-height: min(52vh, 480px);
+  max-height: min(calc(var(--app-height, 100dvh) * 0.52), 480px);
   overflow: auto;
   border: 1px solid var(--dsw-alias-border-l2);
   border-radius: 10px;

@@ -229,7 +229,7 @@
   border-top: none;
   font: var(--dsw-font-markdown-table-head);
   max-width: 320px;
-  max-width: min(30vw, 320px);
+  max-width: min(calc(var(--app-width, 100dvw) * 0.3), 320px);
   min-width: 100px;
 }
 
@@ -238,7 +238,7 @@
   border-bottom: 1px solid var(--dsw-alias-border-l2);
   font: var(--dsw-font-markdown-table);
   max-width: 320px;
-  max-width: min(30vw, 320px);
+  max-width: min(calc(var(--app-width, 100dvw) * 0.3), 320px);
   min-width: 100px;
 }
 
