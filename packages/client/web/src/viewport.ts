@@ -59,9 +59,15 @@ function write(windowTarget: Window, height: number, width: number): void {
     style.id = STYLE_ID
     document.documentElement.appendChild(style)
   }
+  // Floor, never round: under a fractional CSS viewport (browser zoom ≠ 100%,
+  // HiDPI scaling) Chrome and Firefox report innerHeight like 741.6. Rounding
+  // up would size html taller than the viewport and hand the document a
+  // sliver of scroll range — the very jump this module exists to remove.
+  // Flooring loses at most one sub-pixel of usable height; popover margins
+  // already exceed it. Safari reports whole pixels, where floor === round.
   style.textContent =
-    `:root { --app-height: ${String(Math.round(height))}px;`
-    + ` --app-width: ${String(Math.round(width))}px; }`
+    `:root { --app-height: ${String(Math.floor(height))}px;`
+    + ` --app-width: ${String(Math.floor(width))}px; }`
 }
 
 /**

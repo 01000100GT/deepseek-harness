@@ -1,6 +1,19 @@
 /* Shell-owned mount defaults. Theme tokens arrive with the ui-theme client
  * plugin before the loader roster activates. */
 
+/* The application owns every scroll: transcripts scroll their own column,
+ * popovers clamp inside the viewport. The document itself must never grow a
+ * scrollbar — a document-level bar is exactly the "page scrolls past its
+ * frame" defect (bottom whitespace, jump at the scroll floor). Locking the
+ * root kills that class wholesale: any stray overflow from a portal, a
+ * sub-pixel rounding artifact, or a classic-scrollbar engine difference is
+ * clipped instead of becoming scroll range. overscroll-behavior stops
+ * touch/rubber-band chains from dragging the frozen document. */
+html {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 html,
 body,
 #root {

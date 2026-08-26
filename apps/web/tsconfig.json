@@ -100,7 +100,8 @@
     "tests/complex-history.perf.ts",
     "tests/pwsh-terminal.e2e.ts",
     "tests/workflow-run.e2e.ts",
-    "tests/viewport-height.e2e.ts"
+    "tests/viewport-height.e2e.ts",
+    "tests/doc-scroll-lock.e2e.ts"
   ],
   "references": [
     {
