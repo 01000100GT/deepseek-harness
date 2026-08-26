@@ -116,7 +116,10 @@ function uninstall(windowTarget: Window, handle: InstalledHandle): void {
   installed.delete(windowTarget)
 }
 
-/** Tear down listeners (used by tests and disposal). */
+/**
+ * Tear down listeners (used by tests and disposal).
+ * @param windowTarget - the window whose listeners are removed (defaults to globalThis.window).
+ */
 export function uninstallStableViewport(windowTarget: Window = globalThis.window): void {
   const handle = installed.get(windowTarget)
   if (handle === undefined) return
@@ -137,12 +140,20 @@ function readCustomProp(windowTarget: Window, varName: string): number | null {
   return Number.isFinite(parsed) ? parsed : null
 }
 
-/** Read the current --app-height value as a number, or null if unset. */
+/**
+ * Read the current --app-height value as a number, or null if unset.
+ * @param windowTarget - the window whose root style is read (defaults to globalThis.window).
+ * @returns the pinned height in px, or null when no stable value is installed.
+ */
 export function readStableViewportHeight(windowTarget: Window = globalThis.window): number | null {
   return readCustomProp(windowTarget, '--app-height')
 }
 
-/** Read the current --app-width value as a number, or null if unset. */
+/**
+ * Read the current --app-width value as a number, or null if unset.
+ * @param windowTarget - the window whose root style is read (defaults to globalThis.window).
+ * @returns the pinned width in px, or null when no stable value is installed.
+ */
 export function readStableViewportWidth(windowTarget: Window = globalThis.window): number | null {
   return readCustomProp(windowTarget, '--app-width')
 }
