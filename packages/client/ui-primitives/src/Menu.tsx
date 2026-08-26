@@ -14,6 +14,7 @@ import { createPortal } from 'react-dom'
 import clsx from 'clsx'
 import { IconCheckOutline16 } from './icons/index.tsx'
 import { usePointerGrace } from './pointer-grace.ts'
+import { useAvailableHeight } from './useAvailableHeight.ts'
 import css from './Menu.module.css'
 
 /** Selectable row (optionally with a nested submenu). */
@@ -199,6 +200,18 @@ export function Menu({ open, anchor, items, selectedId, selectedIds, onSelect, o
   // scroll clip would crop it, so only submenu-free menus get the height cap.
   const scrollable = !items.some(entry => !isSeparator(entry) && !isLabel(entry) && entry.submenu !== undefined && entry.submenu.length > 0)
 
+  // Trigger-anchored cap: room between the trigger edge and the viewport edge
+  // (12px clearance mirrors the portal clamp above). The CSS .scrollable rule
+  // reads --menu-max-height so this inline value wins; the var() fallback in
+  // CSS still covers the pre-measure frame and engines without visualViewport.
+  const listMaxHeight = useAvailableHeight({
+    open: open && scrollable,
+    anchorRef: rootRef,
+    side,
+    cap: Number.POSITIVE_INFINITY,
+    margin: 12,
+  })
+
   const renderEntry = (entry: MenuEntry) => {
     if (isSeparator(entry)) {
       return <div key={entry.id} className={css.separator} role="separator" />
@@ -261,12 +274,19 @@ export function Menu({ open, anchor, items, selectedId, selectedIds, onSelect, o
   // Portal lists render hidden until placed: the placement effect measures
   // this pre-render in the same commit, so the first painted frame is
   // already at the final position (with getAnchorRect returning null the
-  // list simply stays hidden).
+  // list simply stays hidden). Both modes pin --menu-max-height from the
+  // available-height hook so the list never extends past the viewport edge,
+  // even when the trigger sits near the viewport top or bottom. The CSS
+  // custom property rides in `style` via a typed alias; React.CSSProperties
+  // does not enumerate CSS variables.
+  const listStyle: CSSProperties | undefined = portal
+    ? { ...(fixedPos ?? MEASURE_STYLE), ...({ '--menu-max-height': `${String(listMaxHeight)}px` } as CSSProperties) }
+    : scrollable ? ({ '--menu-max-height': `${String(listMaxHeight)}px` } as CSSProperties) : undefined
   const list = open && (
     <div
       ref={listRef}
       className={clsx(css.list, dense && css.denseList, compact && css.compactList, scrollable && css.scrollable, portal && css.portal, side === 'top' && !portal && css.sideTop, align === 'end' && !portal && css.alignEnd)}
-      style={portal ? fixedPos ?? MEASURE_STYLE : undefined}
+      style={listStyle}
       role="menu"
       // React portals bubble synthetic events through the REACT tree: without
       // this stop, an item click re-fires the anchor row's own onClick

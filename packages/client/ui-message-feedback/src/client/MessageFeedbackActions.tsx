@@ -16,7 +16,7 @@ import {
 } from 'react'
 import { createPortal } from 'react-dom'
 import {
-  IconDislikeOutline16, IconLikeOutline16, Tooltip, useAnchoredPosition,
+  IconDislikeOutline16, IconLikeOutline16, Tooltip, useAnchoredPosition, useAvailableHeight,
 } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { MessageFeedbackRating } from '@deepseek-ai/dsh-message-feedback/types'
 import type { MessageFeedbackActionProps } from './slots.ts'
@@ -193,6 +193,17 @@ export function MessageFeedbackActions({ messageId, ensure, rate, toggle, clearN
     margin: PANEL_MARGIN,
   })
 
+  // Trigger-anchored cap: keep the panel inside the viewport when the trigger
+  // sits near the bottom edge. CSS reads --menu-max-height; the var() fallback
+  // (calc(100dvh - 24px)) still covers the pre-measure frame.
+  const panelMaxHeight = useAvailableHeight({
+    open: noteOpen,
+    anchorRef: triggerRef,
+    side: 'bottom',
+    cap: Number.POSITIVE_INFINITY,
+    margin: PANEL_MARGIN,
+  })
+
   // Focus the input and close on Escape or outside pointer-down while open.
   useEffect(() => {
     if (!noteOpen) return
@@ -291,7 +302,7 @@ export function MessageFeedbackActions({ messageId, ensure, rate, toggle, clearN
           className={css.notePanel}
           role="dialog"
           aria-label={t('note.dialog')}
-          style={pos ?? MEASURE_STYLE}
+          style={{ ...(pos ?? MEASURE_STYLE), ...({ '--menu-max-height': `${String(panelMaxHeight)}px` } as CSSProperties) }}
         >
           <textarea
             ref={inputRef}

@@ -13,13 +13,13 @@
  */
 import {
   useEffect, useId, useMemo, useRef, useState, useSyncExternalStore,
-  type KeyboardEvent, type FocusEvent,
+  type CSSProperties, type KeyboardEvent, type FocusEvent,
 } from 'react'
 import clsx from 'clsx'
 import type { ModelReasoningEffort, ModelSelection } from '@deepseek-ai/dsh-api-remotes/client'
 import {
   IconCheckOutline16, IconChevronDownOutline14, IconChevronRightOutline14,
-  IconWarningOutline16, Toast,
+  IconWarningOutline16, Toast, useAvailableHeight,
 } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { PropsLocale } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ModelSelectInjected } from './slots.ts'
@@ -123,6 +123,18 @@ export function ModelSelect(
     document.addEventListener('mousedown', closeOutside)
     return () => { document.removeEventListener('mousedown', closeOutside) }
   }, [open])
+
+  // Trigger-anchored cap: keep the menu inside the viewport when the trigger
+  // sits near the bottom edge. CSS reads --menu-max-height; the var() fallback
+  // (calc(100dvh - 96px)) still covers the pre-measure frame. The hook must
+  // run on every render so it lives before the `!available` early return.
+  const menuMaxHeight = useAvailableHeight({
+    open,
+    anchorRef: triggerRef,
+    side: 'bottom',
+    cap: Number.POSITIVE_INFINITY,
+    margin: 16,
+  })
 
   if (!available) return null
 
@@ -245,6 +257,7 @@ export function ModelSelect(
         <div
           id={`${id}-menu`}
           className={css.menu}
+          style={{ '--menu-max-height': `${String(menuMaxHeight)}px` } as CSSProperties}
           role="menu"
           aria-label={t('menu.aria')}
           aria-busy={state.status === 'loading' || busy}

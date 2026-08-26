@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import type { JobView } from '@deepseek-ai/dsh-client-runtime/client'
-import { IconChevronDownOutline14, StateDot, useDismissOnOutsidePointer, type StateDotState } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconChevronDownOutline14, StateDot, useAvailableHeight, useDismissOnOutsidePointer, type StateDotState } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { PropsLocale, PropsRuntime, TranslateNS } from '@deepseek-ai/dsh-client-ui-slots'
 import { NS } from './locales.ts'
 import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
@@ -117,6 +117,18 @@ export function JobListAction({ sessionId, useSessions, t }: JobListActionProps)
     if (jobs.length === 0 && open) setOpen(false)
   }, [jobs.length, open])
 
+  // Trigger-anchored cap: keep the list inside the viewport when the trigger
+  // sits near the bottom edge. CSS reads --menu-max-height; the var() fallback
+  // (min(420px, 100dvh - 140px)) still covers the pre-measure frame. The hook
+  // must run on every render so it lives before the jobs-empty early return.
+  const menuMaxHeight = useAvailableHeight({
+    open,
+    anchorRef: triggerRef,
+    side: 'bottom',
+    cap: Number.POSITIVE_INFINITY,
+    margin: 16,
+  })
+
   if (jobs.length === 0) return null
 
   const countKey = liveCount > 0
@@ -154,7 +166,7 @@ export function JobListAction({ sessionId, useSessions, t }: JobListActionProps)
       </button>
       {open
         ? (
-          <ul className={css.menu} aria-label={t('list.aria')}>
+          <ul className={css.menu} style={{ '--menu-max-height': `${String(menuMaxHeight)}px` } as CSSProperties} aria-label={t('list.aria')}>
             {rows.map((job) => {
               const live = isLive(job)
               const elapsed = live ? now - job.startedAt : (job.finishedAt ?? job.startedAt) - job.startedAt

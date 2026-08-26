@@ -128,4 +128,34 @@ describe('web e2e: stable viewport height across resize', () => {
     expect(frame.bottom).toBeLessThanOrEqual((appHeight as number) + TOLERANCE)
     expect(Math.abs(frame.height - (appHeight as number))).toBeLessThanOrEqual(TOLERANCE)
   })
+
+  it.skipIf(MODE === 'record')('keeps --menu-max-height below --app-height when a popup can be opened', async () => {
+    onTestFailed(() => saveFailureShot(page, 'web-e2e-viewport-height-popover-bound'))
+    // The component-level unit test (use-available-height.spec.ts) pins the
+    // contract that anchored popovers read --menu-max-height from JS and
+    // never exceed the available space below the trigger. This browser-side
+    // assertion checks the same contract end-to-end: opening the most
+    // reliable always-present trigger (the model picker) and confirming the
+    // popover's bottom edge sits inside --app-height.
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => {
+      requestAnimationFrame(() => { resolve() })
+    })))
+    const appHeight = await readAppHeight(page)
+    expect(appHeight).not.toBeNull()
+
+    const modelTrigger = page.getByRole('button', { name: /^(model|Model|select a model|选择模型|select model)/i })
+    if (await modelTrigger.count() === 0) return
+    await modelTrigger.first().click()
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => {
+      requestAnimationFrame(() => { resolve() })
+    })))
+    const popover = page.locator('[role="menu"]').last()
+    if (await popover.count() === 0) return
+    const box = await popover.evaluate((node) => {
+      const rect = node.getBoundingClientRect()
+      return { bottom: rect.bottom }
+    })
+    expect(box.bottom).toBeLessThanOrEqual((appHeight as number) + TOLERANCE)
+  })
 })

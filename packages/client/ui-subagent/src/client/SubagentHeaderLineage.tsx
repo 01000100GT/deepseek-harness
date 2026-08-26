@@ -8,6 +8,7 @@ import {
 } from '@deepseek-ai/dsh-client-runtime/client'
 import {
   IconChevronDownOutline14, IconChevronRightOutline14, IconRefreshOutline14, StateDot,
+  useAvailableHeight,
 } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { PropsLocale, PropsRuntime, TranslateNS } from '@deepseek-ai/dsh-client-ui-slots'
 import { NS } from './locales.ts'
@@ -691,6 +692,18 @@ function CatalogDropdown({
     closeAllCatalogs()
   }, [visible, open])
 
+  // Trigger-anchored cap: keep the catalog inside the viewport even when the
+  // trigger sits near the viewport bottom. CSS reads --menu-max-height; the
+  // var() fallback (calc(100dvh - 140px)) still covers the pre-measure frame.
+  // The hook must run on every render so it lives before the early return.
+  const menuMaxHeight = useAvailableHeight({
+    open,
+    anchorRef: triggerRef,
+    side: 'bottom',
+    cap: Number.POSITIVE_INFINITY,
+    margin: 16,
+  })
+
   if (!visible) return null
 
   const focusAt = (index: number): void => {
@@ -777,7 +790,7 @@ function CatalogDropdown({
         <div
           ref={menuRef}
           className={css.menu}
-          style={menuPosition}
+          style={{ ...menuPosition, ...({ '--menu-max-height': `${String(menuMaxHeight)}px` } as CSSProperties) }}
           role="tree"
           aria-label={t('tree.aria')}
           onMouseEnter={cancelHoverClose}
