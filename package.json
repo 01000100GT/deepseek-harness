@@ -101,6 +101,7 @@
     "verify-optional-dependency-imports": "tsx scripts/verify-optional-dependency-imports.ts",
     "verify-runtime-closure": "tsx scripts/verify-runtime-closure.ts",
     "verify-client-packages": "tsx scripts/verify-client-packages.ts",
+    "verify-client-viewport-units": "tsx scripts/verify-client-viewport-units.ts",
     "verify-vendored-links": "tsx scripts/verify-vendored-links.ts",
     "verify-cordis-config": "tsx scripts/verify-cordis-config.ts",
     "rescope-vendor": "tsx scripts/rescope-vendor.ts",

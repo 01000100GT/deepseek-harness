@@ -110,6 +110,10 @@ One UI feature = one plugin package (`src/client/` browser half). A multi-domain
 
 [docs/web-styling.md](../../docs/web-styling.md) is authoritative. Shared `--dsw-*` tokens and global sheets live in `ui-theme/src/styles/`; feature components consume semantic aliases through CSS Modules and `clsx`, with no literal colors, component library, or Tailwind. Product copy is Chinese; code comments are English.
 
+### Viewport height contract
+
+CSS Modules in any client or extension UI plugin MUST size elements against `var(--app-height, 100dvh)` instead of the layout-viewport unit `100vh` (also forbidden: `100svh`, `100lvh`). The web shell writes `--app-height` from `visualViewport.height` in `packages/client/web/src/viewport.ts` and the JS hook is installed at the top of `AppWebEntry.run()` so the first paint already has a stable value. Bare `100vh` re-introduces the layout-viewport jump the shell fix exists to prevent: when the browser reveals or collapses its URL bar (mobile) or the soft keyboard opens, the unit re-flows and any element using it visibly shifts. `100dvh` alone is allowed because the dynamic unit tracks the same events natively; the contract only forbids the layout-viewport units. `verify-client-viewport-units` (`pnpm run hygiene` aggregate) enforces this and reports every offender with file:line:column.
+
 ## Testing and coverage
 
 The GUI test structure (three tiers, lane map) is settled in the [GUI testing system note](../../.agents/notes/implemented/process/2026-07-20-gui-testing-system.md); repo-wide policy in [docs/testing.md](../../docs/testing.md).

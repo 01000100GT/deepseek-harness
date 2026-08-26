@@ -635,6 +635,7 @@ function hygieneLeafGates(options: { artifactNeeds?: string[] } = {}): Gate[] {
       label: 'optional dependency imports',
     }),
     pnpmScript('client-packages', 'verify-client-packages', { label: 'client packages' }),
+    pnpmScript('client-viewport-units', 'verify-client-viewport-units', { label: 'client viewport units' }),
   ]
 }
 
