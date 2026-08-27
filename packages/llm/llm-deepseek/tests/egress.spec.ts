@@ -30,38 +30,40 @@ async function observe(run: () => Promise<unknown>): Promise<string[]> {
   try { await run().catch(() => undefined) } finally { await dispose() }
   return seen
 }
+import { mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { vi } from 'vitest'
 import { Context } from '@deepseek-ai/cordis'
 import LlmRuntime from '@deepseek-ai/dsh-llm'
-import * as LlmPiAi from '../src/index.ts'
-import { discoverModels } from '../src/discovery.ts'
+import DeepSeekLlmApiExtensionRegistry from '@deepseek-ai/dsh-deepseek-llm-api-extensions'
+import * as LlmDeepSeek from '../src/index.ts'
 
-/** Drive the shipping adapter's provider stream at an unresolvable endpoint. */
-async function streamOnce(): Promise<void> {
-  vi.stubEnv('PI_TEST_KEY', 'probe-key')
-  try {
-    const ctx = new Context()
-    await ctx.plugin(LlmRuntime)
-    await ctx.plugin(LlmPiAi, {
-      providers: { deepseek: { apiKeyEnv: 'PI_TEST_KEY', baseURL: 'http://pi-stream-probe.invalid' } },
-    })
-    for await (const _chunk of ctx.llm.stream({ provider: 'deepseek', model: 'deepseek-v4-flash', messages: [] })) {
-      // The endpoint never answers; the proxy record is the assertion.
-    }
-  } finally {
-    vi.unstubAllEnvs()
-  }
-}
-describe('pi-ai discovery egress', () => {
-  it('goes through the proxy', async () => {
-    const observed = await observe(() => discoverModels({ baseURL: 'http://pi-probe.invalid/v1', api: 'openai-completions', apiKey: 'probe' }))
-    expect(observed.join('|')).toContain('pi-probe.invalid')
-  })
+let home: string
+beforeAll(() => {
+  home = mkdtempSync(join(tmpdir(), 'dsh-deepseek-egress-'))
+  vi.stubEnv('DSH_HOME', home)
+  vi.stubEnv('DEEPSEEK_API_KEY', 'probe-key')
+})
+afterAll(() => {
+  vi.unstubAllEnvs()
+  rmSync(home, { recursive: true, force: true })
 })
 
-describe('pi-ai provider stream egress', () => {
-  it('sends the inference request through the proxy', async () => {
+/** Drive the shipping adapter's chat-completions request at an unresolvable endpoint. */
+async function streamOnce(): Promise<void> {
+  const ctx = new Context()
+  await ctx.plugin(LlmRuntime)
+  await ctx.plugin(DeepSeekLlmApiExtensionRegistry)
+  await ctx.plugin(LlmDeepSeek, { baseURL: 'http://deepseek-probe.invalid/v1', models: [{ id: 'm' }] })
+  for await (const _chunk of ctx.llm.stream({ provider: 'deepseek-official', model: 'm', messages: [] })) {
+    // The endpoint never answers; the proxy record is the assertion.
+  }
+}
+
+describe('llm-deepseek egress', () => {
+  it('sends the chat-completions request through the proxy', async () => {
     const observed = await observe(streamOnce)
-    expect(observed.join('|')).toContain('pi-stream-probe.invalid')
+    expect(observed.join('|')).toContain('deepseek-probe.invalid')
   })
 })
