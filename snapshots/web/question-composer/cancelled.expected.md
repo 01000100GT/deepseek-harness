@@ -1,8 +1,6 @@
 - banner:
   - navigation "Session hierarchy":
     - button "Use the ask_user_question tool to" [disabled]
-  - img
-  - text: Standard mode
   - button "Session log":
     - text: Session log
     - img
@@ -24,26 +22,13 @@
   - img
   - img
   - text: Think The user wants me to use the ask_user_question tool with specific parameters. Let me do exactly that.
-- button "Ask question 1/1 answered" [expanded]:
+- button "Ask question cancelled" [expanded]:
   - img
-  - text: Ask question 1/1 answered
-- term: Which color do you prefer?
-- definition: Blue Include accessibility notes
+  - text: Ask question cancelled
+- paragraph: This question set was cancelled before answers were submitted.
+- list:
+  - listitem: Which color do you prefer?
 - button "Inspect"
-- button "Think The user answered \"Blue\". I should now reply with the single word DONE and stop.":
-  - img
-  - img
-  - text: Think The user answered "Blue". I should now reply with the single word DONE and stop.
-- paragraph: DONE
-- button "Copy":
-  - img
-- button "Good response":
-  - img
-- button "Bad response":
-  - img
-- button "Branch into a new conversation":
-  - img
-- text: {{clock}} Ran for {{duration}} TTFT {{duration}} {{throughput}} tok/s
 - textbox "Message or run a task... / commands, @ files or sessions"
 - button "Commands":
   - img
@@ -53,4 +38,4 @@
   - img
 - button "3% of context used"
 - button "Send message" [disabled]
-- text: 1 turns · 2 steps LLM {{duration}} · Tool call {{duration}} TTFT avg {{duration}} · {{throughput}} tok/s Cache hit 95% Input 8.6K tok · Output 180 tok
+- text: 1 turns · 1 steps LLM {{duration}} · Tool call {{duration}} TTFT avg {{duration}} · {{throughput}} tok/s Cache hit 97% Input 4.2K tok · Output 158 tok
