@@ -1,22 +1,17 @@
-/**
- * Package-owned invariant companion for `@deepseek-ai/dsh-brand`.
- * @module @deepseek-ai/dsh-brand/invariant
- */
+/** Package-owned invariant companion for `@deepseek-ai/dsh-util-values`. */
 
 /* jscpd:ignore-start */
 import type { Context } from '@deepseek-ai/cordis'
 import type { InvariantInstaller } from '@deepseek-ai/dsh-invariants'
 
-const PACKAGE_NAME = '@deepseek-ai/dsh-brand'
+const PACKAGE_NAME = '@deepseek-ai/dsh-util-values'
 
 /** Cordis companion plugin name. */
-export const name = 'brand-invariant'
+export const name = 'util-values-invariant'
 /** Service required before the companion can reserve package ownership. */
 export const inject = ['invariants']
 
-/**
- * No runtime invariant: this utility owns no event stream, shared identity, or mutable module state.
- */
+/** No runtime invariant: these value operations have no shared runtime state. */
 const install: InvariantInstaller = () => {}
 
 /**
