@@ -1,14 +1,14 @@
 {
-  "name": "@deepseek-ai/cordis-plugin-include",
-  "description": "Include files in cordis configurations",
-  "version": "1.0.7",
+  "name": "@deepseek-ai/dsh-deque",
+  "description": "Zero-dependency circular deque with amortized constant-time end operations and bounded vacant storage",
+  "version": "0.1.2-alpha.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
-    "directory": "vendor/include"
+    "directory": "packages/util/deque"
   },
   "type": "module",
   "main": "lib/index.js",
@@ -18,23 +18,25 @@
       "types": "./lib/types/index.d.ts",
       "default": "./lib/index.js"
     },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
     "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
   "files": [
     "lib/index.js",
-    "lib/types/**/*.d.ts",
-    "lib/types/**/*.d.ts.map",
-    "src"
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
   ],
-  "author": "Shigma <shigma10826@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
+    "@deepseek-ai/dsh-invariants": "workspace:^",
     "@deepseek-ai/cordis": "workspace:^"
   },
-  "dependencies": {
-    "@deepseek-ai/cosmokit": "workspace:^",
-    "js-yaml": "^4.1.0"
+  "devDependencies": {
+    "@deepseek-ai/dsh-invariants": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
   }
 }
